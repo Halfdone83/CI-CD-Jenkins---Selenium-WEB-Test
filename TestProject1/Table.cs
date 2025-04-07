@@ -13,8 +13,19 @@ namespace TestProject2
         [SetUp]
         public void SetUp()
         {
+            ChromeOptions options = new ChromeOptions();
+            options.AddArgument("headless");
+            options.AddArgument("no-sandbox");
+            options.AddArgument("disable-dev-shm-usage");
+            options.AddArgument("--disable-gpu");
+
+            string data = Path.Combine(Path.GetRandomFileName(), Path.GetTempPath());
+            Directory.CreateDirectory(data);
+            options.AddArgument($"--user-data-dir={data}");
+
+
             // Create object of ChromeDriver
-            driver = new ChromeDriver();
+            driver = new ChromeDriver(options);
 
             // Add implicit wait
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
